@@ -1,12 +1,9 @@
 // import fs from 'fs'
-import crypto from 'crypto'
+import crypto from 'crypto';
+import { Request, Response } from "express";
 
-/**
- * callbackEndpoint endpoint
- * @param {import('express').Request} req 
- * @param {import('express').Response} res 
- */
-export const callbackEndpoint = (req, res) => {
+
+export const callbackEndpoint = (req: Request, res: Response) => {
     // const privateKeyPem = fs.readFileSync('private_key.pem');
     // const publicKeyPem = fs.readFileSync('public_key.pem');
 
@@ -44,8 +41,10 @@ export const callbackEndpoint = (req, res) => {
         const receivedData = JSON.parse(decryptDataStr);
         
 
+
         const isSignatureValid = crypto.verify(
             'sha256',
+            // @ts-ignore
             decryptDataStr,
             {
                 key: publicKey,

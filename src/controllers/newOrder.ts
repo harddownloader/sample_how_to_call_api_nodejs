@@ -1,4 +1,7 @@
-export const newOrder = async (_req, res) => {
+import { Request, Response } from "express";
+
+
+export const newOrder = async (req: Request, res: Response) => {
     const url = `${process.env.P2P_API_PATH}token/`
     const access_token = await fetch(url, {
         method: 'POST',
