@@ -1,23 +1,23 @@
-import fs from 'fs'
+// import fs from 'fs'
 import crypto from 'crypto'
 
 /**
- * Echo endpoint
+ * callbackEndpoint endpoint
  * @param {import('express').Request} req 
  * @param {import('express').Response} res 
  */
 const callbackEndpoint = (req, res) => {
-    const privateKeyPem = fs.readFileSync('private_key.pem');
-    const publicKeyPem = fs.readFileSync('public_key.pem');
+    // const privateKeyPem = fs.readFileSync('private_key.pem');
+    // const publicKeyPem = fs.readFileSync('public_key.pem');
 
     // Load the private key
     const privateKey = crypto.createPrivateKey({
-        key: privateKeyPem,
+        key: process.env.PEM_PRIVATE_KEY, // or privateKeyPem
         format: 'pem',
     });
 
     const publicKey = crypto.createPublicKey({
-        key: publicKeyPem,
+        key: process.env.PEM_PUBLIC_KEY, // or publicKeyPem
         format: 'pem',
     });
 
