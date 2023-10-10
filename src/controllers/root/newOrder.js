@@ -1,4 +1,4 @@
-const newOrder = async (_req, res) => {
+export const newOrder = async (_req, res) => {
     const url = `${process.env.P2P_API_PATH}token/`
     const access_token = await fetch(url, {
         method: 'POST',
@@ -59,5 +59,3 @@ const newOrder = async (_req, res) => {
         'msg': 'Something went wrong'
     });
 }
-
-export default newOrder

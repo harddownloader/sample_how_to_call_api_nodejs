@@ -6,7 +6,7 @@ import crypto from 'crypto'
  * @param {import('express').Request} req 
  * @param {import('express').Response} res 
  */
-const callbackEndpoint = (req, res) => {
+export const callbackEndpoint = (req, res) => {
     // const privateKeyPem = fs.readFileSync('private_key.pem');
     // const publicKeyPem = fs.readFileSync('public_key.pem');
 
@@ -75,5 +75,3 @@ const callbackEndpoint = (req, res) => {
         })
     }
 }
-
-export default callbackEndpoint
