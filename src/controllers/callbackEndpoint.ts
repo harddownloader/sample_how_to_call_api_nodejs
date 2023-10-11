@@ -18,6 +18,9 @@ export const callbackEndpoint = (req: Request, res: Response) => {
         format: 'pem',
     });
 
+    console.log({
+        'req.body': req.body
+    })
     // Received encrypted data in base64 format (replace this with your received data)
     const receivedEncryptedDataBase64 = req.body['data']; // Your base64 data here
     const receivedSignatureBase64 = req.body['signature'];
