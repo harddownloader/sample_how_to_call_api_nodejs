@@ -3,6 +3,7 @@ import { ProfilingIntegration } from "@sentry/profiling-node";
 import express from "express";
 import logger from "morgan";
 import * as path from "path";
+import bodyParser from 'body-parser';
 
 import { errorHandler, errorNotFoundHandler } from "./middlewares/errorHandler";
 
@@ -45,6 +46,13 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use("/", index);
 
 app.use(Sentry.Handlers.errorHandler());
+
+app.use(bodyParser.json());
+app.use(
+    bodyParser.urlencoded({
+        extended: true,
+    }),
+);
 
 app.use(errorNotFoundHandler);
 app.use(errorHandler);
