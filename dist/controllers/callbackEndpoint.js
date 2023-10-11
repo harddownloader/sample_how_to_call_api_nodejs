@@ -18,6 +18,10 @@ const callbackEndpoint = (req, res) => {
         key: process.env.PEM_PUBLIC_KEY,
         format: 'pem',
     });
+    console.log({
+        'req.body': req.body,
+        req: req
+    });
     // Received encrypted data in base64 format (replace this with your received data)
     const receivedEncryptedDataBase64 = req.body['data']; // Your base64 data here
     const receivedSignatureBase64 = req.body['signature'];

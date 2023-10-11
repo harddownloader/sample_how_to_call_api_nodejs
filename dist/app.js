@@ -32,6 +32,7 @@ const profiling_node_1 = require("@sentry/profiling-node");
 const express_1 = __importDefault(require("express"));
 const morgan_1 = __importDefault(require("morgan"));
 const path = __importStar(require("path"));
+const body_parser_1 = __importDefault(require("body-parser"));
 const errorHandler_1 = require("./middlewares/errorHandler");
 // Routes
 const index_1 = require("./routes/index");
@@ -61,6 +62,10 @@ exports.app.set("views", path.join(__dirname, "../views"));
 exports.app.set("view engine", "pug");
 exports.app.use((0, morgan_1.default)("dev"));
 exports.app.use(express_1.default.static(path.join(__dirname, "../public")));
+exports.app.use(body_parser_1.default.json());
+exports.app.use(body_parser_1.default.urlencoded({
+    extended: true,
+}));
 exports.app.use("/", index_1.index);
 exports.app.use(Sentry.Handlers.errorHandler());
 exports.app.use(errorHandler_1.errorNotFoundHandler);

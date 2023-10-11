@@ -20,7 +20,6 @@ export const callbackEndpoint = (req: Request, res: Response) => {
 
     console.log({
         'req.body': req.body,
-        req: req
     })
     // Received encrypted data in base64 format (replace this with your received data)
     const receivedEncryptedDataBase64 = req.body['data']; // Your base64 data here

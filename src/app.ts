@@ -43,16 +43,18 @@ app.use(logger("dev"));
 
 app.use(express.static(path.join(__dirname, "../public")));
 
-app.use("/", index);
-
-app.use(Sentry.Handlers.errorHandler());
-
 app.use(bodyParser.json());
 app.use(
     bodyParser.urlencoded({
         extended: true,
     }),
 );
+
+
+app.use("/", index);
+
+app.use(Sentry.Handlers.errorHandler());
+
 
 app.use(errorNotFoundHandler);
 app.use(errorHandler);
