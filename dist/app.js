@@ -27,6 +27,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.app = void 0;
+const Sentry = __importStar(require("@sentry/node"));
+const profiling_node_1 = require("@sentry/profiling-node");
 const express_1 = __importDefault(require("express"));
 const morgan_1 = __importDefault(require("morgan"));
 const path = __importStar(require("path"));
@@ -35,6 +37,24 @@ const errorHandler_1 = require("./middlewares/errorHandler");
 const index_1 = require("./routes/index");
 // Create Express server
 exports.app = (0, express_1.default)();
+Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    integrations: [
+        // enable HTTP calls tracing
+        new Sentry.Integrations.Http({ tracing: true }),
+        // enable Express.js middleware tracing
+        new Sentry.Integrations.Express({ app: exports.app }),
+        new profiling_node_1.ProfilingIntegration(),
+    ],
+    // Performance Monitoring
+    tracesSampleRate: 1.0,
+    // Set sampling rate for profiling - this is relative to tracesSampleRate
+    profilesSampleRate: 1.0, // Capture 100% of the transactions, reduce in production!
+});
+// The request handler must be the first middleware on the app
+exports.app.use(Sentry.Handlers.requestHandler());
+// TracingHandler creates a trace for every incoming request
+exports.app.use(Sentry.Handlers.tracingHandler());
 // Express configuration
 exports.app.set("port", process.env.PORT || 3000);
 exports.app.set("views", path.join(__dirname, "../views"));
@@ -42,6 +62,7 @@ exports.app.set("view engine", "pug");
 exports.app.use((0, morgan_1.default)("dev"));
 exports.app.use(express_1.default.static(path.join(__dirname, "../public")));
 exports.app.use("/", index_1.index);
+exports.app.use(Sentry.Handlers.errorHandler());
 exports.app.use(errorHandler_1.errorNotFoundHandler);
 exports.app.use(errorHandler_1.errorHandler);
 //# sourceMappingURL=app.js.map
